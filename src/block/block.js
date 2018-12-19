@@ -7,6 +7,8 @@ const { registerBlockType } = wp.blocks;
 const el = wp.element.createElement;
 const Components = wp.components;
 var $ = require('jQuery');
+var validUrlRegEx = /(http|https):\/\/([a-z0-9-.]+\/)([0-9a-z-]+)/i;
+
 import { SelectControl } from '@wordpress/components';
 import { withState } from '@wordpress/compose';
 var Fragment = wp.element.Fragment,
@@ -61,26 +63,15 @@ registerBlockType( 'cgb/block-dd-block', {
 				, Fragment)
 			);
 			if(props.attributes.id) {
-				let html = '<p>Survey will load here</p>';
-				let urlStr = props.attributes.id;
-				let valid = (urlStr.match(/(http|https):\/\/([a-z0-9-.]+\/)([0-9a-z-]+)/i) !== null);
-				if(valid) { html = '<iframe frameBorder="0" src="'+props.attributes.id+'"></iframe>'; }
+				let valid = (props.attributes.id.match(validUrlRegEx) !== null);
+				let html = (valid) ? '<iframe frameBorder="0" src="'+props.attributes.id+'"></iframe>': '';
 				$('#survey-container').html(html);
 			}
-			
         return retval;
 	},
 
 	save: function( props ) {
-		let urlStr = props.attributes.id;
-		let valid = (urlStr.match(/(http|https):\/\/([a-z0-9-.]+\/)([0-9a-z-]+)/i) !== null);
-		console.log(valid);
-		if(valid) {
-			return (
-				<iframe frameBorder="0" src={props.attributes.id}></iframe>
-			);
-		} else {
-			return (<p>Survey will load here</p>);
-		}
+		let valid = (props.attributes.id.match(validUrlRegEx) !== null);
+		if(valid) { return ( <iframe frameBorder="0" src={props.attributes.id}></iframe> ); }
 	}
 } );
