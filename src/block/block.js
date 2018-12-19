@@ -46,10 +46,9 @@ registerBlockType( 'cgb/block-dd-block', {
 						id: survey
 					})}
 					options={ [
-							{ value: 'return false', label: '-- Please select --'},
+							{ value: -1, label: '-- Please select --'},
 							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda", label: 'Survey 1' },
-							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e", label: 'Survey 2' },
-							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda", label: 'Survey 3' },
+							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e", label: 'Survey 2' }
 					] }
 					/>
 			);
