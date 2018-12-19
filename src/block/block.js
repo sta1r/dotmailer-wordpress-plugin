@@ -44,6 +44,7 @@ registerBlockType( 'cgb/block-dd-block', {
 						id: survey
 					})}
 					options={ [
+							{ value: 'return false', label: '-- Please select --'},
 							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda", label: 'Survey 1' },
 							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e", label: 'Survey 2' },
 							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda", label: 'Survey 3' },
@@ -60,15 +61,26 @@ registerBlockType( 'cgb/block-dd-block', {
 				, Fragment)
 			);
 			if(props.attributes.id) {
-				$('#survey-container').html('<iframe frameBorder="0" src="'+props.attributes.id+'"></iframe>');
+				let html = '<p>Survey will load here</p>';
+				let urlStr = props.attributes.id;
+				let valid = (urlStr.match(/(http|https):\/\/([a-z0-9-.]+\/)([0-9a-z-]+)/i) !== null);
+				if(valid) { html = '<iframe frameBorder="0" src="'+props.attributes.id+'"></iframe>'; }
+				$('#survey-container').html(html);
 			}
 			
         return retval;
 	},
 
 	save: function( props ) {
-		return (
-			<iframe frameBorder="0" src={props.attributes.id}></iframe>
-		);
+		let urlStr = props.attributes.id;
+		let valid = (urlStr.match(/(http|https):\/\/([a-z0-9-.]+\/)([0-9a-z-]+)/i) !== null);
+		console.log(valid);
+		if(valid) {
+			return (
+				<iframe frameBorder="0" src={props.attributes.id}></iframe>
+			);
+		} else {
+			return (<p>Survey will load here</p>);
+		}
 	}
 } );
