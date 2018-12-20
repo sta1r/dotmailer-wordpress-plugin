@@ -35,17 +35,17 @@ require_once ( plugin_dir_path(__FILE__) . 'dm_shortcode.php' );
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
-register_activation_hook(__FILE__, 'activate');
+register_activation_hook(__FILE__, 'dotMailer_database_install');
 register_activation_hook(__FILE__, 'dotMailer_widget_activate');
 
-register_uninstall_hook(__FILE__, 'uninstall');
+register_uninstall_hook(__FILE__, 'dotMailer_database_uninstall');
 register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
 
 
 /**
  * Executed upon plugin activation.
  */
-function activate() {
+function dotMailer_database_install() {
     global $wpdb;
     $plugin_name = 'dotmailer';
 
@@ -84,7 +84,7 @@ function activate() {
 /**
  * Executed upon plugin activation.
  */
-function uninstall() {
+function dotMailer_database_uninstall() {
     global $wpdb;
     $plugin_name = 'dotmailer';
 
