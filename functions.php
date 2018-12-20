@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Load Languages
+ */
+function my_plugin_init() {
+    load_plugin_textdomain( 'hackweek', false, dirname(plugin_basename( __FILE__ )).'/languages' );
+}
+add_action('init', 'my_plugin_init');
+
+
+
 function shutdown() {
     $error = error_get_last();
     if ($error['type'] === E_ERROR) {

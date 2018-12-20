@@ -154,23 +154,23 @@ class DM_Widget extends WP_Widget {
             $messages_options = get_option('dm_API_messages');
 
             if (isset($messages_options)) {
-                $form_header = $messages_options['dm_API_form_title'];
+                $form_header = __($messages_options['dm_API_form_title']);
             }
 
-            echo $before_widget;
+            echo __($before_widget);
 
 			// Display the widget title
             if ($form_header && $showtitle)
-                echo $before_title . $form_header . $after_title;
+                echo __($before_title,'hackweek') . __($form_header,'hackweek') . __($after_title,'hackweek');
             ?>
 
             <form class="dotMailer_news_letter" style="margin:5px 0 10px 0;" method="post" action ="<?php get_bloginfo( 'url' ); ?>" >
-                <?php if ($showdesc) echo '<p>Please complete the fields below:</p>'; ?>
-                <label for="dotMailer_email">Your email address*:</label><br>
+                <?php if ($showdesc) echo  __('Please complete the fields below:', 'hackweek');?> <br>
+                <label for="dotMailer_email"><?php echo __('Your email address*:' , 'hackweek'); ?></label><br>
                 <input class="email" type="text" id="dotMailer_email" name="dotMailer_email" /><br>
                 <?php
                 if (isset($formErrors['email_invalid'])) {
-                    echo "<p class='error_message'>" . $formErrors['email_invalid'] . "</p>";
+                    echo "<p class='error_message'>" . __($formErrors['email_invalid']) . "</p>";
                 }
                 ?>
                 <?php
@@ -207,7 +207,7 @@ class DM_Widget extends WP_Widget {
                 }
                 ?>
 
-                <input type="submit"  name="dm_submit_btn" value="<?php echo $form_subscribe_button; ?>" style="margin-top:5px;"/>
+                <input type="submit"  name="dm_submit_btn" value="<?php echo __($form_subscribe_button,'hackweek'); ?>" style="margin-top:5px;"/>
 
 
             </form>
