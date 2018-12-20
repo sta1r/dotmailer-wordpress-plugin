@@ -1,4 +1,3 @@
-
 import './style.scss';
 import './editor.scss';
 
@@ -18,15 +17,19 @@ import axios from 'axios';
 	 surveys: [],
 	 getSurveyData: function(props)  {
 		 console.log(props);
-		 var surveys = dotsurvey.surveys;
-		axios.get('../wp-json/alastars/v1/surveys').then(function(output) {
-				for (var key in output.data) 
-				{ 
-					surveys[key] = {};
-					surveys[key].label = output.data[key].dm_name;
-					surveys[key].value = output.data[key].url;
-				}
-		});
+		var surveys = dotsurvey.surveys || [];
+		if(surveys.length == 0) {
+			axios.get('../wp-json/alastars/v1/surveys').then(function(output) {
+				
+					for (var key in output.data) 
+					{ 
+						surveys[key] = {};
+						surveys[key].label = output.data[key].dm_name;
+						surveys[key].value = output.data[key].url;
+					}
+					surveys.unshift({'label': '-- Select survey --', 'value': -1});
+			});
+		}
 	 },
 	 getSurveyList() {
 		 console.log(dotsurvey.surveys);
