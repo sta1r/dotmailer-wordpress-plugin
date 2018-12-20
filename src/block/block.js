@@ -8,9 +8,31 @@ const el = wp.element.createElement;
 const Components = wp.components;
 var $ = require('jQuery');
 var validUrlRegEx = /(http|https):\/\/([a-z0-9-.]+\/)([0-9a-z-]+)/i;
+var surveys = [];
 
 import { SelectControl } from '@wordpress/components';
 import { withState } from '@wordpress/compose';
+import axios from 'axios';
+
+ var dotsurvey = {
+	 surveys: [],
+	 getSurveyData: function()  {
+		 var surveys = dotsurvey.surveys;
+		axios.get('../wp-json/alastars/v1/surveys').then(function(output) {
+				for (var key in output.data) 
+				{ 
+					surveys[key] = {};
+					surveys[key].label = output.data[key].dm_name;
+					surveys[key].value = output.data[key].url;
+				}
+		});
+	 },
+	 getSurveyList() {
+		 console.log(dotsurvey.surveys);
+		 return dotsurvey.surveys;
+	 }
+ }
+
 var Fragment = wp.element.Fragment,
     RichText = wp.editor.RichText,
     BlockControls = wp.editor.BlockControls,
@@ -35,9 +57,17 @@ registerBlockType( 'cgb/block-dd-block', {
     },
 
     edit: function( props ) {
-        var id = props.attributes.id || '',
-			focus = props.focus;
+	
+	var id = props.attributes.id || '',
+		focus = props.focus;
+		dotsurvey.getSurveyData();
+
+		setTimeout(dotsurvey.getSurveyList, 1000);
+		
+		console.log(dotsurvey.surveys);
 		var retval = [];
+
+
         	const MySelectControl = () => (
         		<SelectControl
 					label={ __( 'Select a survey:' ) }
@@ -45,16 +75,15 @@ registerBlockType( 'cgb/block-dd-block', {
 					onChange={ (survey) =>props.setAttributes({
 						id: survey
 					})}
-					options={ [
-							{ value: -1, label: '-- Please select --'},
-							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda", label: 'Survey 1' },
-							{ value: "https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e", label: 'Survey 2' }
-					] }
+					options={ dotsurvey.surveys }
 					/>
 			);
-            retval.push(
-                 el( MySelectControl )
+           
+			
+			retval.push(
+				el( MySelectControl )
 			);
+			
 			retval.push(
 				React.createElement(
 					'div',
