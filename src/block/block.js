@@ -16,7 +16,8 @@ import axios from 'axios';
 
  var dotsurvey = {
 	 surveys: [],
-	 getSurveyData: function()  {
+	 getSurveyData: function(props)  {
+		 console.log(props);
 		 var surveys = dotsurvey.surveys;
 		axios.get('../wp-json/alastars/v1/surveys').then(function(output) {
 				for (var key in output.data) 
@@ -60,11 +61,11 @@ registerBlockType( 'cgb/block-dd-block', {
 	
 	var id = props.attributes.id || '',
 		focus = props.focus;
-		dotsurvey.getSurveyData();
+		dotsurvey.getSurveyData(props);
 
 		setTimeout(dotsurvey.getSurveyList, 1000);
 		
-		console.log(dotsurvey.surveys);
+		//dotsurvey.surveys = [{"label":"Crystal Test Survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-f42tvfb1"},{"label":"Cats or dogs?","value":"https://r1.dotmailer-surveys.com/204mlv7a-e12tvh14"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-8f3isi05"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-503isjd1"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-f33iss54"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-e53izob2"},{"label":"survey 1","value":"https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda"},{"label":"survey 2","value":"https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e"}]
 		var retval = [];
 
 
@@ -99,7 +100,9 @@ registerBlockType( 'cgb/block-dd-block', {
 	},
 
 	save: function( props ) {
-		let valid = (props.attributes.id.match(validUrlRegEx) !== null);
-		if(valid) { return ( <iframe frameBorder="0" src={props.attributes.id}></iframe> ); }
+		if(props.attributes.id) {
+			let valid = (props.attributes.id.match(validUrlRegEx) !== null);
+			if(valid) { return ( <iframe frameBorder="0" src={props.attributes.id}></iframe> ); }
+		}
 	}
 } );
