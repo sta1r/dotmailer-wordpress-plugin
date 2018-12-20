@@ -203,7 +203,7 @@ function api_messages_section() {
 }
 
 function api_surveys_section() {
-    echo "<div class='inside'><h4>Customise tour Surveys:</h4>";
+    echo "<div class='inside'><h4>Customise your surveys:</h4>";
 }
 
 function api_address_books_section() {
