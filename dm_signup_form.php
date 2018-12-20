@@ -35,10 +35,11 @@ require_once ( plugin_dir_path(__FILE__) . 'dm_shortcode.php' );
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
-register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
-register_activation_hook(__FILE__, 'dotMailer_widget_activate');
 register_activation_hook(__FILE__, 'activate');
+register_activation_hook(__FILE__, 'dotMailer_widget_activate');
 
+register_uninstall_hook(__FILE__, 'uninstall');
+register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
 
 
 
@@ -81,6 +82,23 @@ function activate() {
         dbDelta($sql);
     }
 }
+
+/**
+ * Executed upon plugin activation.
+ */
+function uninstall() {
+    global $wpdb;
+    $plugin_name = 'dotmailer';
+
+    // Address books
+    $dm_address_books_table = $wpdb->prefix . $plugin_name . "_address_books";
+    $wpdb->query("DROP TABLE IF EXISTS $dm_address_books_table");
+
+    // Surveys
+    $dm_surveys_table = $wpdb->prefix . $plugin_name . "_surveys";
+    $wpdb->query("DROP TABLE IF EXISTS $dm_surveys_table");
+}
+
 
 function dotMailer_widget_activate() {
 	dotMailer_set_initial_messages();
@@ -207,7 +225,7 @@ function api_messages_section() {
 }
 
 function api_surveys_section() {
-    echo "<div class='inside'><h4>Customise tour Surveys:</h4>";
+    echo "<div class='inside'><h4>Customise your surveys:</h4>";
 }
 
 function api_address_books_section() {

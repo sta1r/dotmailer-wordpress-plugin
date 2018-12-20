@@ -144,7 +144,7 @@ function get_all_address_books( $data )
 {
 
     global $wpdb;
-    $query = "SELECT dname, visibility, contacts FROM `wp_dotmailer_address_books`";
+    $query = "SELECT dname, visibility, contacts FROM `{$wpdb->prefix}dotmailer_address_books`";
     $list = $wpdb->get_results($query);
     return $list;
 
@@ -153,7 +153,7 @@ function get_all_address_books( $data )
 function get_all_surveys( $data )
 {
     global $wpdb;
-    $query = "SELECT * FROM `wp_dotmailer_surveys`";
+    $query = "SELECT * FROM `{$wpdb->prefix}dotmailer_surveys`";
     $list = $wpdb->get_results($query);
     return $list;
 }
