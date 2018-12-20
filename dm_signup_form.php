@@ -109,6 +109,20 @@ add_action('admin_enqueue_scripts', 'settings_head_scripts');
 add_action('wp_enqueue_scripts', 'widget_head', 9999);
 add_action('widgets_init', 'register_my_widget');
 
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'alastars/v1', '/address-books', array(
+        'methods' => 'GET',
+        'callback' => 'get_all_address_books'
+    ) );
+} );
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'alastars/v1', '/surveys', array(
+        'methods' => 'GET',
+        'callback' => 'get_all_surveys'
+    ) );
+} );
+
 function register_my_widget() {
     register_widget('DM_Widget');
 }
