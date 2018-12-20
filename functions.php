@@ -132,10 +132,12 @@ function saveAddressBooks() {
 
 function get_all_address_books( $data )
 {
+
     global $wpdb;
     $query = "SELECT dname, visibility, contacts FROM `wp_dotmailer_address_books`";
     $list = $wpdb->get_results($query);
     return $list;
+
 }
 
 function get_all_surveys( $data )
@@ -156,5 +158,11 @@ function saveSurveys() {
         $sql = $wpdb->prepare($sql, $survey['id'], $survey['name'], $survey['url'], $survey['state']);
         $wpdb->query($sql);
 
+    }
+}
+
+function rest_only_for_authorized_users($wp_rest_server){
+    if ( !is_user_logged_in() ) {
+        wp_die('sorry you are not allowed to access this data','cheatin eh?',403);
     }
 }
