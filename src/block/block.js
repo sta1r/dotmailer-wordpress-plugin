@@ -31,9 +31,11 @@ import axios from 'axios';
 			});
 		}
 	 },
-	 getSurveyList() {
-		 console.log(dotsurvey.surveys);
+	 getSurveyList() {	
 		 return dotsurvey.surveys;
+	 },
+	 resizeIframe:function(iframe) {
+		 console.log(iframe);
 	 }
  }
 
@@ -62,13 +64,12 @@ registerBlockType( 'cgb/block-dd-block', {
 
     edit: function( props ) {
 	
-	var id = props.attributes.id || '',
-		focus = props.focus;
+	var id = props.attributes.id || '';
 		dotsurvey.getSurveyData(props);
 
-		setTimeout(dotsurvey.getSurveyList, 1000);
+		dotsurvey.surveys = dotsurvey.getSurveyList();
 		
-		//dotsurvey.surveys = [{"label":"Crystal Test Survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-f42tvfb1"},{"label":"Cats or dogs?","value":"https://r1.dotmailer-surveys.com/204mlv7a-e12tvh14"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-8f3isi05"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-503isjd1"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-f33iss54"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-e53izob2"},{"label":"survey 1","value":"https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda"},{"label":"survey 2","value":"https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e"}]
+		dotsurvey.surveys = [{"label": "-- Select survey --", "value":-1}, {"label":"Crystal Test Survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-f42tvfb1"},{"label":"Cats or dogs?","value":"https://r1.dotmailer-surveys.com/204mlv7a-e12tvh14"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-8f3isi05"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-503isjd1"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-f33iss54"},{"label":"Landing page embedded survey","value":"https://r1.dotmailer-surveys.com/204mlv7a-e53izob2"},{"label":"survey 1","value":"https://r1.dotmailer-surveys.com/204mlv7a-9e3jrsda"},{"label":"survey 2","value":"https://r1.dotmailer-surveys.com/204mlv7a-8a3jrt2e"}]
 		var retval = [];
 
 
@@ -96,7 +97,7 @@ registerBlockType( 'cgb/block-dd-block', {
 			);
 			if(props.attributes.id) {
 				let valid = (props.attributes.id.match(validUrlRegEx) !== null);
-				let html = (valid) ? '<iframe frameBorder="0" src="'+props.attributes.id+'"></iframe>': '';
+				let html = (valid) ? '<iframe onLoad="console.log(this.contentWindow.document.body.offsetHeight)" frameBorder="0" src="'+props.attributes.id+'"></iframe>': '';
 				$('#survey-container').html(html);
 			}
         return retval;

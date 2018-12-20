@@ -17,3 +17,8 @@
   margin: 0 auto;
   max-width: 740px;
   padding: 2rem; }
+
+iframe {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content; }
