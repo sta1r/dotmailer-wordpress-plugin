@@ -175,7 +175,7 @@ class DM_Widget extends WP_Widget {
             ?>
 
 
-            <form class="dotMailer_news_letter" style="margin:5px 0 10px 0;" method="post" action ="<?php get_bloginfo( 'url' ); ?>" >
+            <form id="hackweek2018" class="dotMailer_news_letter" style="margin:5px 0 10px 0;" method="post" action ="<?php echo admin_url('admin-ajax.php'); ?>">
                 <?php if ($showdesc) echo  __('Please complete the fields below:', 'hackweek');?> <br>
                 <label for="dotMailer_email"><?php echo __('Your email address*:' , 'hackweek'); ?></label><br>
                 <input class="email" type="text" id="dotMailer_email" name="dotMailer_email" /><br>
