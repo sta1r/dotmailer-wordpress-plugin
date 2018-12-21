@@ -567,7 +567,7 @@ function dm_API_surveys_input()
             <th scope="col" id="addressbook" class="manage-column column-addressbook sortable desc" style=""><a href="?page=dm_form_settings&tab=my_surveys<?php if (isset($neworder)) echo $neworder; ?>"><span>Surveys</span><span class="sorting-indicator"></span></a></th>
             <th scope="col" id="changelabel" class="manage-column column-changelabel" style="">URL</th>
             <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Views</th>
-            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed</th>
+            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed [Embedded / Total]</th>
         </tr>
         </thead>
         <tfoot>
@@ -576,7 +576,7 @@ function dm_API_surveys_input()
             <th scope="col" id="addressbook" class="manage-column column-addressbook sortable desc" style=""><a href="?page=dm_form_settings&tab=my_surveys<?php if (isset($neworder)) echo $neworder; ?>"><span>Surveys</span><span class="sorting-indicator"></span></a></th>
             <th scope="col" id="changelabel" class="manage-column column-changelabel" style="">URL</th>
             <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Views</th>
-            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed</th>
+            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed [Embedded / Total]</th>
         </tr>
         </tfoot>
         <tbody id="the-list" class="sort_books">
@@ -654,7 +654,7 @@ function dm_API_surveys_input()
         }
                 ?>"/></td>
                     <td style="text-align: center;" class="addressbook column-addressbook"><?php echo $survey['totalViews'] ?></td>
-                    <td style="text-align: center;" class="addressbook column-addressbook"><?php echo $survey['totalCompleteResponses'] ?></td>
+                    <td style="text-align: center;" class="addressbook column-addressbook"><?php echo $survey['totalCompleteResponses'].' / '.$survey['sourceEmbeddedTotal'] ?></td>
 
 
                 </tr>
