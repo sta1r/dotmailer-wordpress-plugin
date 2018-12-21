@@ -42,6 +42,8 @@ register_uninstall_hook(__FILE__, 'dotMailer_database_uninstall');
 register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
 
 
+
+
 /**
  * Executed upon plugin activation.
  */
@@ -126,6 +128,8 @@ function dotMailer_widget_uninstall() {
 add_action('admin_enqueue_scripts', 'settings_head_scripts');
 add_action('wp_enqueue_scripts', 'widget_head', 9999);
 add_action('widgets_init', 'register_my_widget');
+
+add_filter( 'rest_api_init', 'rest_only_for_authorized_users', 99 );
 
 add_action( 'rest_api_init', function () {
     register_rest_route( 'alastars/v1', '/address-books', array(
