@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
+/.vs
 
 ## Uncomment line below if you prefer to
 ## keep compiled files out of version control

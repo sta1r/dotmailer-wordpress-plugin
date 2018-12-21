@@ -35,9 +35,12 @@ require_once ( plugin_dir_path(__FILE__) . 'dm_shortcode.php' );
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
-register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
-register_activation_hook(__FILE__, 'dotMailer_widget_activate');
 register_activation_hook(__FILE__, 'activate');
+register_activation_hook(__FILE__, 'dotMailer_widget_activate');
+
+register_uninstall_hook(__FILE__, 'uninstall');
+register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
+
 
 
 
@@ -80,6 +83,23 @@ function activate() {
     }
 }
 
+/**
+ * Executed upon plugin activation.
+ */
+function uninstall() {
+    global $wpdb;
+    $plugin_name = 'dotmailer';
+
+    // Address books
+    $dm_address_books_table = $wpdb->prefix . $plugin_name . "_address_books";
+    $wpdb->query("DROP TABLE IF EXISTS $dm_address_books_table");
+
+    // Surveys
+    $dm_surveys_table = $wpdb->prefix . $plugin_name . "_surveys";
+    $wpdb->query("DROP TABLE IF EXISTS $dm_surveys_table");
+}
+
+
 function dotMailer_widget_activate() {
 	dotMailer_set_initial_messages();
 }
@@ -108,6 +128,8 @@ function dotMailer_widget_uninstall() {
 add_action('admin_enqueue_scripts', 'settings_head_scripts');
 add_action('wp_enqueue_scripts', 'widget_head', 9999);
 add_action('widgets_init', 'register_my_widget');
+
+add_filter( 'rest_api_init', 'rest_only_for_authorized_users', 99 );
 
 add_action( 'rest_api_init', function () {
     register_rest_route( 'alastars/v1', '/address-books', array(
@@ -203,7 +225,7 @@ function api_messages_section() {
 }
 
 function api_surveys_section() {
-    echo "<div class='inside'><h4>Customise tour Surveys:</h4>";
+    echo "<div class='inside'><h4>Customise your surveys:</h4>";
 }
 
 function api_address_books_section() {
