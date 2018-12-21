@@ -33,6 +33,16 @@
 input[type=submit] {
 	display: block;
 }
+.wp-menu-image.dashicons-before.dashicons-admin-generic {
+    background-size: 55%;
+    content: '';    
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-image: url("data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M8%200a8%208%200%201%200%208%208%208%208%200%200%200-8-8m0%2013.21A5.21%205.21%200%201%201%2013.21%208%205.22%205.22%200%200%201%208%2013.21%22%20fill%3D%22%2380c342%22%2F%3E%3Cpath%20d%3D%22M8%202.79A5.21%205.21%200%201%200%2013.21%208%205.22%205.22%200%200%200%208%202.79z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M10.05%208A2.05%202.05%200%201%201%208%206a2.05%202.05%200%200%201%202.05%202%22%20fill%3D%22%23ec008b%22%2F%3E%3C%2Fsvg%3E") !important;
+}
+.dashicons-admin-generic:before {
+    content: '';
+}
 
 
 /*Test*/
