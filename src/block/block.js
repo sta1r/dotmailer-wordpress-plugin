@@ -50,7 +50,7 @@ var Fragment = wp.element.Fragment,
 registerBlockType( 'cgb/block-dd-block', {
     title: __( 'Dotdigital Survey' ),
 	icon: BasicSvg, 
-	category: 'common',
+	category: 'embed',
 	keywords: [
 		__( 'dd-block — Dotdigital Block' ),
 		__( 'CGB Example' ),
