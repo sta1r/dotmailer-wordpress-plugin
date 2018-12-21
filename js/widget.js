@@ -1,4 +1,4 @@
-jQuery(document).ready(function(){
+jQuery(document).ready(function($){
 	var i = 0;
 	jQuery('.Date').each(function(){
       	jQuery(this).attr('id', 'aaaa'+i)
@@ -16,4 +16,27 @@ jQuery(document).ready(function(){
 		window.location.href=redir;
 	}
 
+
+	$('#hackweek2018').on('submit', function(e){
+		e.preventDefault();
+
+		var frm = $('#hackweek2018');
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            action: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (response) {
+				alert(response);
+            },
+            error: function (response) {
+				// alert(response);
+            },
+        });
+
+	});
+	
+
 });
+
+

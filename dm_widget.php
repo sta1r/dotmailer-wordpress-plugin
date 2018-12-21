@@ -1,15 +1,25 @@
 <?php
 
+
 class DM_Widget extends WP_Widget {
 
     function __construct() {
+        add_action( 'wp_ajax_mu_widget', array(
+            $this,
+            'my_widget'
+        ) );
+        add_action( 'wp_ajax_nopriv_my_widget',  array(
+            $this,
+            'my_widget'
+        ) );
         $widget_ops = array('classname' => 'dm_widget', 'description' => __('Put a signup form on your WordPress Website', 'dm_widget'));
         $control_ops = array('id_base' => 'dm_widget');
         parent::__construct('dm_widget', __('dotmailer Sign-up Form', 'dm_widget'), $widget_ops, $control_ops);
     }
 
-    function widget($args, $instance) {
+    public function widget($args, $instance) {
         //***********
+
 
         $showtitle = 1;
         $showdesc = 1;
@@ -51,10 +61,10 @@ class DM_Widget extends WP_Widget {
 
             $formErrors = array();
 
-            if (!isset($_POST['books'])) {
-
-                $formErrors['no_newsletters'] = $nobook_message;
-            }
+//            if (!isset($_POST['books'])) {
+//
+//                $formErrors['no_newsletters'] = $nobook_message;
+//            }
 
             if (isset($_POST['dotMailer_email'])) {
 
@@ -164,10 +174,12 @@ class DM_Widget extends WP_Widget {
                 echo $before_title . $form_header . $after_title;
             ?>
 
-            <form class="dotMailer_news_letter" style="margin:5px 0 10px 0;" method="post" action ="<?php get_bloginfo( 'url' ); ?>" >
+
+            <form id="hackweek2018" class="dotMailer_news_letter" style="margin:5px 0 10px 0;" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">
                 <?php if ($showdesc) echo '<p>Please complete the fields below:</p>'; ?>
                 <label for="dotMailer_email">Your email address*:</label><br>
                 <input class="email" type="text" id="dotMailer_email" name="dotMailer_email" /><br>
+                <input type="hidden" name="action" value="my_widget">
                 <?php
                 if (isset($formErrors['email_invalid'])) {
                     echo "<p class='error_message'>" . $formErrors['email_invalid'] . "</p>";
@@ -207,10 +219,13 @@ class DM_Widget extends WP_Widget {
                 }
                 ?>
 
-                <input type="submit"  name="dm_submit_btn" value="<?php echo $form_subscribe_button; ?>" style="margin-top:5px;"/>
+                <input type="submit"  id="hwsubmit" name="dm_submit_btn" value="<?php echo $form_subscribe_button; ?>" style="margin-top:5px;"/>
 
 
             </form>
+
+
+
             <div id="form_errors">
                 <?php
                 if (isset($_POST['dotMailer_email'])) {
@@ -238,5 +253,147 @@ class DM_Widget extends WP_Widget {
 
             //***********
         }
+
+        public function my_widget() {
+
+
+
+            $messages_option = get_option('dm_API_messages');
+            if (isset($messages_option)) {
+
+                $email_invalid_error = $messages_option['dm_API_invalid_email'];
+                $form_success_message = $messages_option['dm_API_success_message'];
+                $form_failure_message = $messages_option['dm_API_failure_message'];
+                $form_subscribe_button = $messages_option['dm_API_subs_button'];
+                $nobook_message = $messages_option['dm_API_nobook_message'];
+            }
+
+            require_once 'DotMailerConnect.php';
+
+
+            //Form submitted
+//            if (isset($_POST['dm_submit_btn'])) {
+
+                $formErrors = array();
+
+//            if (!isset($_POST['books'])) {
+//
+//                $formErrors['no_newsletters'] = $nobook_message;
+//            }
+
+                if (isset($_POST['dotMailer_email'])) {
+
+                    $email = clean($_POST['dotMailer_email']);
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $formErrors['email_invalid'] = $email_invalid_error;
+                    }
+
+                    if (isset($_POST['datafields'])) {
+                        $dataFields_posted = $_POST['datafields'];
+
+                        $required = returnRequiredFields($dataFields_posted);
+                        if (isset($required)) {
+                            $validation_errors = validateRequiredFields($required);
+
+                            if ($validation_errors != NULL) {
+                                foreach ($validation_errors as $field => $validation_error) {
+                                    $formErrors[$field] = $validation_error;
+                                }
+                            }
+                        }
+                    } else {
+                        $dataFields_posted = array();
+                    }
+                }
+
+
+                $generrors = [];
+                array_push($generrors,$formErrors);
+
+
+                if (empty($formErrors)) {
+
+                    $books = $_POST['books'];
+
+                    $email = clean($_POST['dotMailer_email']);
+
+                    if (!empty($dataFields_posted)) {
+                        $valuesArray = array();
+                        $i = 0;
+                        foreach ($dataFields_posted as $fieldName => $field) {
+                            $valuesArray[$i]["key"] = $fieldName;
+                            $valuesArray[$i]["value"] = $field[0];
+                            $i++;
+                        }
+                    }
+
+
+                    $dm_api_credentials = get_option('dm_API_credentials');
+
+
+                    $api = new DotMailer\Api\DotMailerConnect($dm_api_credentials['dm_API_username'], $dm_api_credentials['dm_API_password']);
+                    //check contact status first
+
+                    $contact_status = $api->getStatusByEmail($email);
+
+                    $suppressed_statuses = array("UnSubscribed", "HardBounced", "Suppressed");
+
+                    if ($contact_status !== FALSE) {//contact already exists
+                        if (in_array($contact_status, $suppressed_statuses)) {
+                            //attempt to re-subscribe
+                            foreach ($books as $book) {
+                                if (isset($valuesArray)) {
+                                    $result[] = $api->reSubscribeContact($email, $book, $valuesArray);
+                                } else {
+                                    $result[] = $api->reSubscribeContact($email, $book);
+                                }
+                            }
+                        } else {
+                            //attempt to update
+                            foreach ($books as $book) {
+                                if (isset($valuesArray)) {
+                                    $result[] = $api->AddContactToAddressBook($email, $book, $valuesArray);
+                                } else {
+                                    $result[] = $api->AddContactToAddressBook($email, $book);
+                                }
+                            }
+                        }
+                    } else {
+                        //attempt to subscribe
+                        foreach ($books as $book) {
+                            if (isset($valuesArray)) {
+                                $result[] = $api->AddContactToAddressBook($email, $book, $valuesArray);
+                            } else {
+                                $result[] = $api->AddContactToAddressBook($email, $book);
+                            }
+                        }
+                    }
+
+
+                    if (!in_array(FALSE, $result)) {
+                        $success_message = $form_success_message;
+                        echo json_encode($success_message);
+                    } else {
+                        echo json_encode('There was a problem.Try again');
+                    }
+
+
+
+
+                }else {
+                    echo json_encode($formErrors);
+
+                }
+
+                die();
+
+//                ?>
+
+                    <?php
+
+
+        }
+
+
 
     }

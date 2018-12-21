@@ -101,6 +101,7 @@ class DotMailerConnect {
 			return json_decode( $this->resources->PostAddressBookContacts( $addressBookId, $apiContact ), true );
 		}
 		catch (Exception $e) {
+		    $test = $e;
 			return false;
 		}
 

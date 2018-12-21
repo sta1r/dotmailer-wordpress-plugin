@@ -166,3 +166,9 @@ function rest_only_for_authorized_users($wp_rest_server){
         wp_die('sorry you are not allowed to access this data','cheatin eh?',403);
     }
 }
+
+
+
+
+
+

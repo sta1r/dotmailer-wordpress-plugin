@@ -134,6 +134,7 @@ final class Resources implements IResources
     public function PostAddressBookContacts($addressBookId, ApiContact $apiContact)
     {
         $url = sprintf("address-books/%s/contacts", $addressBookId);
+        $test = new ApiContact($this->execute($url, 'POST', $apiContact->toJson()));
         return new ApiContact($this->execute($url, 'POST', $apiContact->toJson()));
     }
 
