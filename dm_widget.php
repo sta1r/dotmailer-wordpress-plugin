@@ -219,11 +219,8 @@ class DM_Widget extends WP_Widget {
                 }
                 ?>
 
-<<<<<<< HEAD
-                <input type="submit"  id="hwsubmit" name="dm_submit_btn" value="<?php echo $form_subscribe_button; ?>" style="margin-top:5px;"/>
-=======
+
                 <input type="submit"  name="dm_submit_btn" value="<?php echo __($form_subscribe_button,'hackweek'); ?>" style="margin-top:5px;"/>
->>>>>>> fc1ffff4b0c4f032baa4010fbedb13e3c1283959
 
 
             </form>
