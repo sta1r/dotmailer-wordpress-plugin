@@ -34,7 +34,7 @@ input[type=submit] {
 	display: block;
 }
 
-.toplevel_page_dm_form_settings .wp-menu-image.dashicons-before.dashicons-admin-generic {
+#toplevel_page_dm_form_settings .wp-menu-image.dashicons-before.dashicons-admin-generic {
     background-size: 55%;
     content: '';    
     background-repeat: no-repeat;
