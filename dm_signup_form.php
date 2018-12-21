@@ -35,16 +35,19 @@ require_once ( plugin_dir_path(__FILE__) . 'dm_shortcode.php' );
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
-register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
+register_activation_hook(__FILE__, 'dotMailer_database_install');
 register_activation_hook(__FILE__, 'dotMailer_widget_activate');
-register_activation_hook(__FILE__, 'activate');
+
+register_uninstall_hook(__FILE__, 'dotMailer_database_uninstall');
+register_uninstall_hook(__FILE__, "dotMailer_widget_uninstall");
+
 
 
 
 /**
  * Executed upon plugin activation.
  */
-function activate() {
+function dotMailer_database_install() {
     global $wpdb;
     $plugin_name = 'dotmailer';
 
@@ -79,6 +82,23 @@ function activate() {
         dbDelta($sql);
     }
 }
+
+/**
+ * Executed upon plugin activation.
+ */
+function dotMailer_database_uninstall() {
+    global $wpdb;
+    $plugin_name = 'dotmailer';
+
+    // Address books
+    $dm_address_books_table = $wpdb->prefix . $plugin_name . "_address_books";
+    $wpdb->query("DROP TABLE IF EXISTS $dm_address_books_table");
+
+    // Surveys
+    $dm_surveys_table = $wpdb->prefix . $plugin_name . "_surveys";
+    $wpdb->query("DROP TABLE IF EXISTS $dm_surveys_table");
+}
+
 
 function dotMailer_widget_activate() {
 	dotMailer_set_initial_messages();
@@ -206,7 +226,7 @@ function api_messages_section() {
 }
 
 function api_surveys_section() {
-    echo "<div class='inside'><h4>Customise tour Surveys:</h4>";
+    echo "<div class='inside'><h4>Customise your surveys:</h4>";
 }
 
 function api_address_books_section() {
@@ -548,7 +568,7 @@ function dm_API_surveys_input()
             <th scope="col" id="addressbook" class="manage-column column-addressbook sortable desc" style=""><a href="?page=dm_form_settings&tab=my_surveys<?php if (isset($neworder)) echo $neworder; ?>"><span>Surveys</span><span class="sorting-indicator"></span></a></th>
             <th scope="col" id="changelabel" class="manage-column column-changelabel" style="">URL</th>
             <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Views</th>
-            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed</th>
+            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed [Embedded / Total]</th>
         </tr>
         </thead>
         <tfoot>
@@ -557,7 +577,7 @@ function dm_API_surveys_input()
             <th scope="col" id="addressbook" class="manage-column column-addressbook sortable desc" style=""><a href="?page=dm_form_settings&tab=my_surveys<?php if (isset($neworder)) echo $neworder; ?>"><span>Surveys</span><span class="sorting-indicator"></span></a></th>
             <th scope="col" id="changelabel" class="manage-column column-changelabel" style="">URL</th>
             <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Views</th>
-            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed</th>
+            <th scope="col" id="visible" class="manage-column column-visible" style="text-align: center;">Completed [Embedded / Total]</th>
         </tr>
         </tfoot>
         <tbody id="the-list" class="sort_books">
@@ -635,7 +655,7 @@ function dm_API_surveys_input()
         }
                 ?>"/></td>
                     <td style="text-align: center;" class="addressbook column-addressbook"><?php echo $survey['totalViews'] ?></td>
-                    <td style="text-align: center;" class="addressbook column-addressbook"><?php echo $survey['totalCompleteResponses'] ?></td>
+                    <td style="text-align: center;" class="addressbook column-addressbook"><?php echo $survey['totalCompleteResponses'].' / '.$survey['sourceEmbeddedTotal'] ?></td>
 
 
                 </tr>

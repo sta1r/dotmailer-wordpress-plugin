@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-12-20 11:51+0000\n"
+"PO-Revision-Date: 2018-12-20 12:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: dm_signup_form.php:226
+msgid "Subscribe to our newsletter"
+msgstr "Εγγραφείτε στο newsletter μας"
+
+#: dm_signup_form.php:227
+msgid "Please use a valid email address"
+msgstr "Παρακαλώ χρησιμοποιήστε μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου"
+
+#: dm_signup_form.php:228
+msgid "Please fill all the required fields"
+msgstr "Παρακαλώ συμπληρώστε όλα τα απαιτούμενα πεδία"
+
+#: dm_signup_form.php:229
+msgid "Please select one newsletter"
+msgstr "Παρακαλώ επιλέξτε ένα ενημερωτικό δελτίο"
+
+#: dm_signup_form.php:230
+msgid "You have now subscribed to our newsletter"
+msgstr "Τώρα έχετε εγγραφεί στο newsletter μας"
+
+#: dm_signup_form.php:231
+msgid "There was a problem signing you up."
+msgstr "Υπήρχε πρόβλημα με την υπογραφή σου."
+
+#: dm_signup_form.php:232
+msgid "Subscribe"
+msgstr "Εγγραφή"
+
+#: dm_widget.php:6
+msgid "Put a signup form on your WordPress Website"
+msgstr "Βάλτε μια φόρμα εγγραφής στην ιστοσελίδα σας WordPress"
+
+#: dm_widget.php:8
+msgid "dotmailer Sign-up Form"
+msgstr "Φόρμα εγγραφής dotMailer"
+
+#: dm_widget.php:168
+msgid "Please complete the fields below:"
+msgstr "Παρακαλούμε συμπληρώστε τα παρακάτω πεδία:"
+
+#: dm_widget.php:169
+msgid "Your email address*:"
+msgstr "Παρακαλώ χρησιμοποιήστε μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου"
+
+#: src/block/block.js:14
+msgid "dd-block - Dotdigital Block"
+msgstr "DD-Block-Dotdigital μπλοκ"
+
+#: src/block/block.js:18
+msgid "dd-block — Dotdigital Block"
+msgstr "DD-Block-Dotdigital μπλοκ"
+
+#: src/block/block.js:19
+msgid "CGB Example"
+msgstr "CGB παράδειγμα"
+
+#: src/block/block.js:20
+msgid "create-guten-block"
+msgstr "DD-Block-Dotdigital μπλοκ"
+
+#: src/block/block.js:33
+msgid "Select a survey:"
+msgstr "Επιλέξτε μια έρευνα:"
