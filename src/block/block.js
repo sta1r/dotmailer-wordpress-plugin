@@ -48,7 +48,7 @@ var Fragment = wp.element.Fragment,
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 8 8 8 8 0 0 0-8-8m0 13.21A5.21 5.21 0 1 1 13.21 8 5.22 5.22 0 0 1 8 13.21" fill="#80c342"/><path d="M8 2.79A5.21 5.21 0 1 0 13.21 8 5.22 5.22 0 0 0 8 2.79z" fill="#fff"/><path d="M10.05 8A2.05 2.05 0 1 1 8 6a2.05 2.05 0 0 1 2.05 2" fill="#ec008b"/></svg>
 
 registerBlockType( 'cgb/block-dd-block', {
-	title: __( 'dd-block - Dotdigital Block' ), 
+	title: __( 'Dotdigital Survey' ),
 	icon: BasicSvg, 
 	category: 'embed',
 	keywords: [
